@@ -1,0 +1,77 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4">Contact us</h2>
+      <form (ngSubmit)="enviarMensaje()" #contactoForm="ngForm">
+        <div class="mb-3  w-75 m-auto">
+          <label for="nombre" class="form-label">Name</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" 
+                 [(ngModel)]="contacto.nombre" required minlength="3" maxlength="50"
+                 pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+"
+                 [class.is-invalid]="contactoForm.controls['nombre']?.invalid && contactoForm.controls['nombre']?.touched">
+          @if (contactoForm.controls['nombre']?.invalid && contactoForm.controls['nombre']?.touched) {
+            <div class="invalid-feedback d-block">
+              @if (contactoForm.controls['nombre']?.errors?.['required']) {
+                <div>Name is required</div>
+              }
+              @if (contactoForm.controls['nombre']?.errors?.['minlength']) {
+                <div>The name must be at least 3 characters long</div>
+              }
+              @if (contactoForm.controls['nombre']?.errors?.['maxlength']) {
+                <div>The name cannot exceed 50 characters</div>
+              }
+              @if (contactoForm.controls['nombre']?.errors?.['pattern']) {
+                <div>Only letters and spaces are allowed.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3  w-75 m-auto">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" 
+                 [(ngModel)]="contacto.email" required email
+                 [class.is-invalid]="contactoForm.controls['email']?.invalid && contactoForm.controls['email']?.touched">
+          @if (contactoForm.controls['email']?.invalid && contactoForm.controls['email']?.touched) {
+            <div class="invalid-feedback d-block">
+              @if (contactoForm.controls['email']?.errors?.['required']) {
+                <div>Email is required</div>
+              }
+              @if (contactoForm.controls['email']?.errors?.['email']) {
+                <div>Please enter a valid email</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3 w-75 m-auto">
+          <label for="mensaje" class="form-label">Message</label>
+          <textarea class="form-control " id="mensaje" name="mensaje" rows="5"
+                    [(ngModel)]="contacto.mensaje" required minlength="10" maxlength="500"
+                    [class.is-invalid]="contactoForm.controls['mensaje']?.invalid && contactoForm.controls['mensaje']?.touched"></textarea>
+          @if (contactoForm.controls['mensaje']?.invalid && contactoForm.controls['mensaje']?.touched) {
+            <div class="invalid-feedback d-block">
+              @if (contactoForm.controls['mensaje']?.errors?.['required']) {
+                <div>The message is required</div>
+              }
+              @if (contactoForm.controls['mensaje']?.errors?.['minlength']) {
+                <div>The message must be at least 10 characters long</div>
+
+              }
+              @if (contactoForm.controls['mensaje']?.errors?.['maxlength']) {
+                <div>The message cannot exceed 500 characters</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary m-auto w-25" [disabled]="contactoForm.invalid">
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,36 @@
+/* Product list images */
+.card img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+/* Product detail images */
+.img-fluid {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+i {
+    color: #212529;
+}
+
+span {
+    font-size: 15px;
+    margin-bottom: 8px;
+    background-color: #263244 !important;
+}
+
+.fw-bold {
+    margin-top: 20px;
+    color: #263244;
+}
+
+.btn-warning {
+    color: #212529;
+}
