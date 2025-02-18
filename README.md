@@ -1,27 +1,35 @@
-# Carrito
+# Carrito de Compras Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+Este es un proyecto de carrito de compras desarrollado con Angular.
 
-## Development server
+## Características principales
+- Catálogo de productos
+- Funcionalidad de carrito de compras
+- Gestión de productos
+- Interfaz responsive
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Requisitos
+- Node.js (v16 o superior)
+- Angular CLI
 
-## Code scaffolding
+## Instalación
+1. Clonar el repositorio
+2. Instalar dependencias: `npm install`
+3. Ejecutar la aplicación: `ng serve`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Ejecución
+Accede a la aplicación en tu navegador: http://localhost:4200
 
-## Build
+## Estructura del Proyecto
+- `src/app/components/`: Componentes reutilizables
+- `src/app/pages/`: Páginas principales
+- `src/app/services/`: Servicios de la aplicación
+- `public/`: Recursos estáticos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Contribución
+Si deseas contribuir al proyecto, sigue estos pasos:
+1. Haz un fork del repositorio
+2. Crea una nueva rama: `git checkout -b nueva-funcionalidad`
+3. Realiza tus cambios y haz commit: `git commit -m 'Agrega nueva funcionalidad'`
+4. Haz push a la rama: `git push origin nueva-funcionalidad`
+5. Abre un Pull Request
