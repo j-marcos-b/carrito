@@ -17,7 +17,11 @@ export class CarritoListarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getListCarrito();
+    this.carritoService.carrito$.subscribe(() => {
+      this.getListCarrito();
+    });
   }
+
 
   getListCarrito() {
     this.listCarrito = this.carritoService.getCarrito();

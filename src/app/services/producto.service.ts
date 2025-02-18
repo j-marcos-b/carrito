@@ -30,5 +30,4 @@ export class ProductoService {
   getCategorias(): Observable<string[]> {
     return this.http.get<string[]>(`${this.apiUrl}/categories`);
   }
-
 }

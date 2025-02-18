@@ -87,5 +87,4 @@ export class HomeComponent implements OnInit {
   getCategoryRoute(product: Producto): string[] {
     return ['/catalogo', product.id.toString()];
   }
-
 }

@@ -16,6 +16,8 @@ import { map } from 'rxjs/operators';
   templateUrl: './catalogo-inicio.component.html',
   styleUrls: ['./catalogo-inicio.component.css']
 })
+
+
 export class CatalogoInicioComponent implements OnInit {
   productos: Producto[] = [];
 

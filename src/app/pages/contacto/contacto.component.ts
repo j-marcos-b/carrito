@@ -7,8 +7,6 @@ interface Contacto {
   email: string;
   mensaje: string;
 }
-
-
 @Component({
   selector: 'app-contacto',
   standalone: true,
