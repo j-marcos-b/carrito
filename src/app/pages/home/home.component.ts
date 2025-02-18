@@ -1,8 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../../components/footer/footer.component';
-
 
 import { ProductoService } from '../../services/producto.service';
 import Producto from '../../models/producto/producto';
@@ -11,18 +12,41 @@ import Producto from '../../models/producto/producto';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterModule, FooterComponent],
-
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
   featuredProducts: Producto[] = [];
   isPaused = false;
+  
+  // Variables para controlar la visibilidad de las secciones
+  showWelcome = false;
+  showProducts = false;
+  showInfo = false;
+  showTestimonials = false;
 
-  constructor(private productoService: ProductoService) {}
+  constructor(private productoService: ProductoService, 
+              private viewportScroller: ViewportScroller) {}
 
   ngOnInit(): void {
     this.getFeaturedProducts();
+    this.checkScroll();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    this.checkScroll();
+  }
+
+  checkScroll() {
+    const scrollPosition = this.viewportScroller.getScrollPosition()[1];
+    
+    // Mostrar secciones basado en la posición del scroll
+    // Una vez que se muestran, permanecen visibles
+    this.showWelcome = this.showWelcome || scrollPosition > 100;
+    this.showProducts = this.showProducts || scrollPosition > 400;
+    this.showInfo = this.showInfo || scrollPosition > 800;
+    this.showTestimonials = this.showTestimonials || scrollPosition > 1200;
   }
 
   @HostListener('mouseenter')
@@ -51,40 +75,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  nextSlide() {
-    const carouselTrack = document.querySelector('.carousel-track') as HTMLElement;
-    if (carouselTrack) {
-      const currentTransform = window.getComputedStyle(carouselTrack).transform;
-      const matrix = new DOMMatrix(currentTransform);
-      const currentTranslateX = matrix.m41;
-      const slideWidth = carouselTrack.clientWidth / 2;
-      carouselTrack.style.transform = `translateX(${currentTranslateX - slideWidth}px)`;
-    }
-  }
-
-  prevSlide() {
-    const carouselTrack = document.querySelector('.carousel-track') as HTMLElement;
-    if (carouselTrack) {
-      const currentTransform = window.getComputedStyle(carouselTrack).transform;
-      const matrix = new DOMMatrix(currentTransform);
-      const currentTranslateX = matrix.m41;
-      const slideWidth = carouselTrack.clientWidth / 2;
-      carouselTrack.style.transform = `translateX(${currentTranslateX + slideWidth}px)`;
-    }
-  }
-
   getFeaturedProducts(): void {
     const categories = ['electronics', 'jewelery', "women's clothing"];
-    
     categories.forEach(category => {
-      this.productoService.getProductosPorCategoria(category).subscribe(products => {
-        const randomProduct = products[Math.floor(Math.random() * products.length)];
-        this.featuredProducts.push(randomProduct);
-      });
+      this.productoService.getProductosPorCategoria(category)
+        .subscribe(products => {
+          const randomProduct = products[Math.floor(Math.random() * products.length)];
+          this.featuredProducts.push(randomProduct);
+        });
     });
-  }
-
-  getCategoryRoute(product: Producto): string[] {
-    return ['/catalogo', product.id.toString()];
   }
 }
