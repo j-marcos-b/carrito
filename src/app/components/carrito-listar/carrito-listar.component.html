@@ -1,5 +1,6 @@
 <div class="container-fluid mt-3">
-  <h5>Mi carrito</h5>
+  <h5>My Cart</h5>
+
   <hr>
   <div class="row">
     <div class="col-sm-9">
@@ -8,25 +9,28 @@
           <div class="table-responsive">
             <table class="table table-striped text-center">
               <thead>
-                <th>Producto</th>
-                <th>Imagen</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Importe</th>
-                <th>Eliminar</th>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+                <th>Remove</th>
+
               </thead>
               <tbody>
-                @for (item of listCarrito; track item.producto) {
+                @for (item of listCarrito; track item.id) {
                   <tr>
-                    <td class="align-middle">{{ item.producto.title }}</td>
-                    <td class="align-middle"><img [src]="item.producto.image" alt="{{item.producto.title}}" class="img-thumbnail" style="width: 80px;"></td>
-                    <td class="align-middle">{{ item.producto.price | number: '1.2-2'}}</td>
+                    <td class="align-middle">{{ item.title }}</td>
+                    <td class="align-middle"><img [src]="item.image" alt="{{item.title}}" class="img-thumbnail" style="width: 80px;"></td>
+                    <td class="align-middle">{{ item.price | number: '1.2-2'}}</td>
+
                     <td class="align-middle">
                       <input type="number" class="form-control"
                       [(ngModel)]="item.cantidad" min="1"
                       (keydown)="onKeyDown($event)">
                     </td>
-                    <td class="align-middle">{{ item.producto.price * item.cantidad | number: '1.2-2' }}</td>
+                    <td class="align-middle">{{ item.price * item.cantidad | number: '1.2-2' }}</td>
+
                     <td class="align-middle">
                       <button (click)="eliminarItem($index)" type="button" class="btn btn-danger btn-sm">
                         <i class="bi bi-trash"></i>
@@ -36,7 +40,8 @@
                 }
                 @if(listCarrito.length == 0) {
                   <tr>
-                    <td colspan="6" class="text-center">No hay productos en el carrito</td>
+                  <td colspan="6" class="text-center">Your cart is empty</td>
+
                   </tr>
                 }
               </tbody>
@@ -49,18 +54,22 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-            <h3>Resumen de la Compra</h3>
+            <h3>Order Summary</h3>
+
             <hr>
             <div class="d-flex justify-content-between mb-4">
               <p class="mb-2">Total</p>
               <p class="mb-2">${{carritoService.total() | number: '1.2-2'}} </p>
             </div>
             <button [disabled]="listCarrito.length == 0" 
-            type="button" class="btn btn-dark btn-block btn-lg">
+            type="button" class="btn btn-dark btn-block btn-lg"
+            (click)="irAPago()">
               <div class="d-flex justify-content-between">
-                <span>Comprar</span>
+                <span>Checkout</span>
+
               </div>
             </button>
+
           </div>
         </div>
       </div>

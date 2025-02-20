@@ -1,33 +1,56 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FooterComponent } from '../../components/footer/footer.component';
 
-interface Contacto {
-  nombre: string;
-  email: string;
-  mensaje: string;
-}
+
+
 @Component({
   selector: 'app-contacto',
   standalone: true,
-  imports: [FormsModule, FooterComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent],
 
   templateUrl: './contacto.component.html',
-  styleUrl: './contacto.component.css'
+  styleUrls: ['./contacto.component.css']
 })
 export class ContactoComponent {
-  contacto: Contacto = {
-    nombre: '',
-    email: '',
-    mensaje: ''
-  };
+  showSuccessMessage = false;
+  
+  contactoForm = new FormGroup({
 
-  enviarMensaje() {
-    console.log('Mensaje enviado:', this.contacto);
-    // Aquí iría la lógica para enviar el mensaje
-    alert('Gracias por contactarnos. Tu mensaje ha sido enviado.');
-    this.contacto = { nombre: '', email: '', mensaje: '' }; // Resetear el formulario
+    nombre: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50)
+    ]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]),
+    mensaje: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(500)
+    ])
+  });
+
+
+  get nombre() { return this.contactoForm.get('nombre'); }
+  get email() { return this.contactoForm.get('email'); }
+  get mensaje() { return this.contactoForm.get('mensaje'); }
+
+  enviarFormulario() {
+    if (this.contactoForm.valid) {
+      this.showSuccessMessage = true;
+      this.contactoForm.reset();
+      
+      setTimeout(() => {
+        this.showSuccessMessage = false;
+      }, 3000);
+    }
   }
+
 
 
 }

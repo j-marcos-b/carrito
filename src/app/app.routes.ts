@@ -3,6 +3,12 @@ import { CatalogoInicioComponent } from './pages/catalogo/catalogo-inicio.compon
 import { CarritoListarComponent } from './components/carrito-listar/carrito-listar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
+import { PagoComponent } from './components/pago/pago.component';
+import { PagoModule } from './components/pago/pago.module';
+import { ConfirmacionPagoModule } from './components/confirmacion-pago/confirmacion-pago.module';
+
+
+
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -11,5 +17,16 @@ export const routes: Routes = [
 
     {path: 'carrito', component: CarritoListarComponent},
     {path: 'contacto' , component: ContactoComponent },
+    { 
+      path: 'pago',
+      loadComponent: () => import('./components/pago/pago.component').then(m => m.PagoComponent)
+    },
+    {
+      path: 'confirmacion-pago',
+      loadComponent: () => import('./components/confirmacion-pago/confirmacion-pago.component').then(m => m.ConfirmacionPagoComponent)
+    },
+
     {path: '**' , pathMatch: 'full', redirectTo: ''},
+
+
 ];

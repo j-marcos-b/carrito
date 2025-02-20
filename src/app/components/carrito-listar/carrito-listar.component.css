@@ -1,1 +1,83 @@
+.container-fluid {
+  padding: 20px;
+}
 
+.card {
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.img-thumbnail {
+  max-width: 80px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.btn-danger {
+  padding: 5px 10px;
+}
+
+.btn-dark {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+
+.btn-dark:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+hr {
+  margin: 1rem 0;
+  border-color: #eee;
+}
+
+h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  width: 80px;
+  margin: 0 auto;
+  text-align: center;
+}

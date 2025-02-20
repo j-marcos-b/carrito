@@ -1,0 +1,50 @@
+<div class="pago-container">
+  <h2>Payment Process</h2>
+  
+  <div class="resumen-compra">
+    <h3>Order Summary</h3>
+    <p>Total to pay: {{ total | currency }}</p>
+  </div>
+
+  <form (ngSubmit)="procesarPago()" [formGroup]="pagoForm" class="form-pago">
+    <div class="form-group">
+      <label for="nombreTitular">Cardholder Name</label>
+      <input type="text" id="nombreTitular" formControlName="nombreTitular" required autocomplete="cc-name"
+             [ngClass]="{'valid': nombreTitular?.valid, 'invalid': nombreTitular?.invalid && nombreTitular?.touched}">
+      <div class="invalid-feedback" *ngIf="nombreTitular?.invalid && nombreTitular?.touched">
+        Please enter a valid cardholder name (3-50 characters)
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="numeroTarjeta">Card Number</label>
+      <input type="text" id="numeroTarjeta" formControlName="numeroTarjeta" required autocomplete="cc-number"
+             [ngClass]="{'valid': numeroTarjeta?.valid, 'invalid': numeroTarjeta?.invalid && numeroTarjeta?.touched}">
+      <div class="invalid-feedback" *ngIf="numeroTarjeta?.invalid && numeroTarjeta?.touched">
+        Please enter a valid 16-digit card number
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="fechaExpiracion">Expiration Date</label>
+        <input type="text" id="fechaExpiracion" formControlName="fechaExpiracion" placeholder="MM/YY" required autocomplete="cc-exp"
+               [ngClass]="{'valid': fechaExpiracion?.valid, 'invalid': fechaExpiracion?.invalid && fechaExpiracion?.touched}">
+        <div class="invalid-feedback" *ngIf="fechaExpiracion?.invalid && fechaExpiracion?.touched">
+          Please enter a valid expiration date (MM/YY)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" formControlName="cvv" required autocomplete="cc-csc"
+               [ngClass]="{'valid': cvv?.valid, 'invalid': cvv?.invalid && cvv?.touched}">
+        <div class="invalid-feedback" *ngIf="cvv?.invalid && cvv?.touched">
+          Please enter a valid CVV (3 or 4 digits)
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-pagar w-25 m-auto" [disabled]="pagoForm.invalid">Pay</button>
+  </form>
+</div>

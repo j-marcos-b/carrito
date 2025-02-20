@@ -28,14 +28,15 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.carritoService.cantidad$.subscribe(cantidad => {
-      this.cantidad = cantidad;
+    this.carritoService.carrito$.subscribe(carrito => {
+      this.cantidad = carrito.reduce((sum, producto) => sum + producto.cantidad, 0);
     });
     
     this.productoService.getCategorias().subscribe(categorias => {
       this.categorias = categorias;
     });
   }
+
 
   seleccionarCategoria(categoria: string) {
     this.categoriaSeleccionada = categoria;

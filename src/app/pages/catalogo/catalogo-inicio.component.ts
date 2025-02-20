@@ -6,27 +6,24 @@ import { CarritoService } from '../../services/carrito.service';
 import { ActivatedRoute } from '@angular/router';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { map } from 'rxjs/operators';
-
-
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-catalogo-inicio',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule, FooterComponent, MatSnackBarModule],
   templateUrl: './catalogo-inicio.component.html',
   styleUrls: ['./catalogo-inicio.component.css']
 })
-
-
 export class CatalogoInicioComponent implements OnInit {
   productos: Producto[] = [];
 
   constructor(
     private productoService: ProductoService, 
     private carritoService: CarritoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
-
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -102,10 +99,12 @@ export class CatalogoInicioComponent implements OnInit {
     });
   }
 
-
   agregarProducto(item: Producto) {
-    this.carritoService.agregarProducto(item);
-
+    this.carritoService.agregar(item);
+    this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    });
   }
 
   trackById(index: number, producto: Producto): string {

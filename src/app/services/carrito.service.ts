@@ -1,62 +1,82 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-import { Carrito } from '../models/carrito/carrito.model';
-import Producto from '../models/producto/producto';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
-  private carritoSubject = new BehaviorSubject<Carrito[]>([]);
+  private carritoSubject = new BehaviorSubject<any[]>([]);
   carrito$ = this.carritoSubject.asObservable();
-  private cantidadSubject = new BehaviorSubject<number>(0);
-  cantidad$ = this.cantidadSubject.asObservable();
+  private isBrowser: boolean;
 
-  constructor() { }
-
-  agregarProducto(producto: Producto): void {
-    const currentCarrito = this.carritoSubject.value;
-    const existingItem = currentCarrito.find(item => item.producto.id === producto.id);
-    
-    if (existingItem) {
-      existingItem.cantidad += 1;
-    } else {
-      currentCarrito.push(new Carrito(producto));
+  constructor(
+    private snackBar: MatSnackBar,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    if (this.isBrowser) {
+      this.inicializarCarrito();
     }
-    
-    this.carritoSubject.next([...currentCarrito]);
-    this.cantidadSubject.next(currentCarrito.reduce((sum, item) => sum + item.cantidad, 0));
   }
 
-  getCarrito(): Carrito[] {
+  private inicializarCarrito() {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+      this.carritoSubject.next(JSON.parse(carritoGuardado));
+    }
+  }
+
+
+  agregar(producto: any): void {
+    const carritoActual = this.carritoSubject.value;
+    const productoExistente = carritoActual.find(p => p.id === producto.id);
+    
+    if (productoExistente) {
+      productoExistente.cantidad++;
+    } else {
+      carritoActual.push({...producto, cantidad: 1});
+    }
+
+    this.carritoSubject.next(carritoActual);
+    if (this.isBrowser) {
+      localStorage.setItem('carrito', JSON.stringify(carritoActual));
+    }
+    this.mostrarNotificacion('Producto agregado al carrito');
+  }
+
+
+  eliminar(index: number): void {
+    const carritoActual = this.carritoSubject.value;
+    carritoActual.splice(index, 1);
+    this.carritoSubject.next(carritoActual);
+    if (this.isBrowser) {
+      localStorage.setItem('carrito', JSON.stringify(carritoActual));
+    }
+  }
+
+
+  getCarrito(): any[] {
     return this.carritoSubject.value;
   }
 
-  eliminar(index: number): void {
-    const currentCarrito = this.carritoSubject.value;
-    if (index >= 0 && index < currentCarrito.length) {
-      const updatedCarrito = currentCarrito.filter((_, i) => i !== index);
-      this.carritoSubject.next(updatedCarrito);
-      this.cantidadSubject.next(updatedCarrito.reduce((sum, item) => sum + item.cantidad, 0));
-    }
+  total(): number {
+    return this.carritoSubject.value.reduce((sum, producto) => sum + (producto.price * producto.cantidad), 0);
   }
 
   limpiarCarrito(): void {
     this.carritoSubject.next([]);
-    this.cantidadSubject.next(0);
-  }
-
-  actualizarCantidad(index: number, cantidad: number): void {
-    const currentCarrito = this.carritoSubject.value;
-    if (index >= 0 && index < currentCarrito.length) {
-      currentCarrito[index].cantidad = cantidad;
-      this.carritoSubject.next([...currentCarrito]);
-      this.cantidadSubject.next(currentCarrito.reduce((sum, item) => sum + item.cantidad, 0));
+    if (this.isBrowser) {
+      localStorage.removeItem('carrito');
     }
   }
 
-  total(): number {
-    const carrito = this.carritoSubject.value;
-    return carrito.reduce((sum, item) => sum + (item.producto.price * item.cantidad), 0);
+
+  private mostrarNotificacion(mensaje: string): void {
+    this.snackBar.open(mensaje, 'Cerrar', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    });
   }
 }

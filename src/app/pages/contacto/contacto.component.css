@@ -1,1 +1,20 @@
+/* Estilos para los inputs */
+.form-control {
+  transition: border-color 0.3s ease;
+}
 
+.form-control:focus {
+  border-color: #ffc107 !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25) !important;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border-color: #dc3545 !important;
+}
+
+/* Estilos para los mensajes de error */
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+}
