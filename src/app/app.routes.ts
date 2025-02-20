@@ -4,8 +4,8 @@ import { CarritoListarComponent } from './components/carrito-listar/carrito-list
 import { HomeComponent } from './pages/home/home.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { PagoComponent } from './components/pago/pago.component';
-import { PagoModule } from './components/pago/pago.module';
-import { ConfirmacionPagoModule } from './components/confirmacion-pago/confirmacion-pago.module';
+
+
 
 
 
