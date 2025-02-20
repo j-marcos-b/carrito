@@ -27,7 +27,9 @@
                     <td class="align-middle">
                       <input type="number" class="form-control"
                       [(ngModel)]="item.cantidad" min="1"
-                      (keydown)="onKeyDown($event)">
+                      (keydown)="onKeyDown($event)"
+                      (ngModelChange)="carritoService.actualizarCantidad(item, $event)">
+
                     </td>
                     <td class="align-middle">{{ item.price * item.cantidad | number: '1.2-2' }}</td>
 

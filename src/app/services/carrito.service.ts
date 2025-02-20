@@ -72,6 +72,20 @@ export class CarritoService {
     }
   }
 
+  actualizarCantidad(producto: any, cantidad: number): void {
+    const carritoActual = this.carritoSubject.value;
+    const productoExistente = carritoActual.find(p => p.id === producto.id);
+    
+    if (productoExistente) {
+      productoExistente.cantidad = cantidad;
+      this.carritoSubject.next(carritoActual);
+      if (this.isBrowser) {
+        localStorage.setItem('carrito', JSON.stringify(carritoActual));
+      }
+    }
+  }
+
+
 
   private mostrarNotificacion(mensaje: string): void {
     this.snackBar.open(mensaje, 'Cerrar', {
